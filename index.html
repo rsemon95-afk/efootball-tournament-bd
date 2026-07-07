@@ -75,7 +75,23 @@
         alert("Updated Successfully!");
     }
 </script>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBSyGaoPiUGWtimkdSlSUNOz8hAabji6TA",
+  authDomain: "efootball-bd-club.firebaseapp.com",
+  projectId: "efootball-bd-club",
+  storageBucket: "efootball-bd-club.firebasestorage.app",
+  messagingSenderId: "507983934399",
+  appId: "1:507983934399:web:9b154adfa92bd8e1fce70a"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 </body>
 </html>
 
