@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efootball Club BD Tournament 2026</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: white; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: #38bdf8; font-size: 24px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border: 1px solid #334155; text-align: center; }
+        th { background: #0f172a; color: #38bdf8; }
+        .admin-section { display: none; background: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid #38bdf8; }
+        input { background: #1e293b; border: 1px solid #475569; color: white; padding: 8px; margin: 5px; border-radius: 5px; width: 90%; }
+        button { background: #38bdf8; border: none; padding: 10px 20px; border-radius: 5px; color: #0f172a; font-weight: bold; cursor: pointer; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Efootball Club BD Tournament 2026</h1>
+
+    <div class="card">
+        <h2>Points Table</h2>
+        <table>
+            <thead>
+                <tr><th>Team</th><th>Goal</th><th>Points</th></tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <button onclick="document.getElementById('adminPanel').style.display='block'">Admin Login</button>
+    <div id="adminPanel" class="admin-section card" style="margin-top:20px;">
+        <h3>Admin Update</h3>
+        <input type="text" id="tName" placeholder="Team Name">
+        <input type="number" id="tGoals" placeholder="Goals">
+        <input type="number" id="tPoints" placeholder="Points">
+        <button onclick="updateData()">Save Update</button>
+    </div>
+</div>
+
+<script type="module">
+    // আপনার Firebase কনফিগারেশন এখানে বসান
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        // এখানে আপনার Firebase কনফিগারেশন পেস্ট করুন
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ডাটা শো করার লজিক
+    onSnapshot(collection(db, "teams"), (snapshot) => {
+        let tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = "";
+        snapshot.forEach((doc) => {
+            let t = doc.data();
+            tableBody.innerHTML += `<tr><td>${t.name}</td><td>${t.goals}</td><td>${t.points}</td></tr>`;
+        });
+    });
+
+    // ডাটা আপডেটের লজিক
+    window.updateData = async () => {
+        let name = document.getElementById('tName').value;
+        let goals = document.getElementById('tGoals').value;
+        let points = document.getElementById('tPoints').value;
+        
+        await addDoc(collection(db, "teams"), { name: name, goals: goals, points: points });
+        alert("Updated Successfully!");
+    }
+</script>
+
+</body>
+</html>
 
